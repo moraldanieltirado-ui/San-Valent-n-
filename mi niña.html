@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Para Ti ❤️</title>
+<style>
+body {
+  margin: 0;
+  font-family: 'Segoe UI', sans-serif;
+  overflow-x: hidden;
+}
+
+.page {
+  width: 100vw;
+  height: 100vh;
+  display: none;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+#page1 {
+  background: #f8b6c8;
+  display: flex;
+}
+
+#page2 {
+  background: #fff0f4;
+}
+
+#page3 {
+  background: #fff;
+  padding: 40px;
+}
+
+button {
+  padding: 20px 40px;
+  font-size: 32px;
+  border-radius: 50px;
+  border: none;
+  background: #ff4d6d;
+  color: white;
+  cursor: pointer;
+  box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+}
+
+#tree {
+  position: relative;
+  width: 300px;
+  height: 400px;
+}
+
+.heart {
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  background: red;
+  transform: rotate(45deg);
+}
+
+.heart::before,
+.heart::after {
+  content: '';
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  background: inherit;
+  border-radius: 50%;
+}
+
+.heart::before {
+  top: -10px;
+  left: 0;
+}
+
+.heart::after {
+  left: -10px;
+  top: 0;
+}
+
+.falling {
+  animation: fall 8s linear infinite;
+}
+
+@keyframes fall {
+  0% { transform: translateY(0) rotate(45deg); opacity: 1; }
+  100% { transform: translateY(500px) rotate(45deg); opacity: 0; }
+}
+
+#letter {
+  font-size: 22px;
+  max-width: 700px;
+  line-height: 1.6;
+  white-space: pre-wrap;
+}
+</style>
+</head>
+<body>
+
+<div id="page1" class="page">
+  <button onclick="goToPage2()">444</button>
+</div>
+
+<div id="page2" class="page">
+  <div id="tree"></div>
+</div>
+
+<div id="page3" class="page">
+  <div id="letter"></div>
+</div>
+
+<script>
+function goToPage2() {
+  document.getElementById("page1").style.display = "none";
+  document.getElementById("page2").style.display = "flex";
+  generateTree();
+  setTimeout(goToPage3, 9000);
+}
+
+function generateTree() {
+  const tree = document.getElementById("tree");
+  for (let i = 0; i < 40; i++) {
+    const heart = document.createElement("div");
+    heart.className = "heart";
+    heart.style.left = Math.random() * 280 + "px";
+    heart.style.top = Math.random() * 300 + "px";
+    heart.style.background = `rgb(255, ${50 + Math.random()*100}, ${50 + Math.random()*100})`;
+    tree.appendChild(heart);
+
+    setTimeout(() => {
+      const falling = heart.cloneNode(true);
+      falling.classList.add("falling");
+      falling.style.position = "absolute";
+      falling.style.left = heart.style.left;
+      falling.style.top = heart.style.top;
+      document.body.appendChild(falling);
+    }, 3000 + i * 150);
+  }
+}
+
+function goToPage3() {
+  document.getElementById("page2").style.display = "none";
+  document.getElementById("page3").style.display = "flex";
+  writeLetter();
+}
+
+function writeLetter() {
+  const text = `Mi amor,
+
+Desde que llegaste a mi vida, todo floreció.
+Cada latido mío te nombra,
+cada pensamiento me lleva a ti.
+
+No prometo perfección,
+pero sí un amor sincero,
+uno que crece, cae y vuelve a levantarse,
+igual que estos corazones.
+
+Te amo hoy,
+te amaré mañana,
+y en cada versión del futuro que soñemos juntos. ❤️`;
+
+  let i = 0;
+  const letter = document.getElementById("letter");
+
+  const interval = setInterval(() => {
+    letter.innerHTML += text.charAt(i);
+    i++;
+    if (i >= text.length) clearInterval(interval);
+  }, 50);
+}
+</script>
+
+</body>
+</html>
